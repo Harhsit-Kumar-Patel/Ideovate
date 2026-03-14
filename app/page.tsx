@@ -1,82 +1,71 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Plus, Sparkles, Trash2 } from 'lucide-react';
-import { useStore } from './store/useStore'; 
-import Sidebar from './components/Sidebar'; 
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowRight, Sparkles, Layers, Zap } from "lucide-react";
 
-export default function Dashboard() {
-  const [inputText, setInputText] = useState('');
-  const [mounted, setMounted] = useState(false);
-  const { ideas, addIdea, deleteIdea } = useStore();
-
-  // Prevent hydration errors with local storage
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const handleCapture = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
-    addIdea(inputText.trim());
-    setInputText('');
-  };
-
-  if (!mounted) return null; // Wait for client-side hydration
-
+export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-50 flex font-sans selection:bg-neutral-700">
-      <Sidebar />
+    <div className="min-h-screen bg-neutral-950 text-neutral-50 selection:bg-neutral-800 overflow-hidden relative font-sans">
+      
+      {/* Abstract Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/[0.03] blur-[120px] rounded-full pointer-events-none" />
 
-      {/* Main Content Area */}
-      <main className="flex-1 p-8 md:p-12 flex flex-col max-w-4xl mx-auto w-full">
+      {/* Navbar */}
+      <nav className="relative z-10 flex justify-between items-center p-6 md:px-12 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-white text-black rounded-lg flex items-center justify-center font-bold">I</div>
+          <span className="font-semibold text-lg tracking-widest">IDEOVATE</span>
+        </div>
+        <Link href="/dashboard" className="text-sm font-medium text-neutral-400 hover:text-white transition-colors">
+          Log In
+        </Link>
+      </nav>
+
+      {/* Hero Section */}
+      <main className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-32 pb-24 max-w-5xl mx-auto">
         
-        <header className="mb-12 mt-4">
-          <h1 className="text-4xl font-semibold mb-3 tracking-tight">Good morning, Harshit.</h1>
-          <p className="text-lg text-neutral-500">What are we building today?</p>
-        </header>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-900/50 border border-neutral-800 text-sm text-neutral-300 mb-8 backdrop-blur-sm"
+        >
+          <Sparkles size={14} className="text-neutral-400" />
+          <span>The local-first productivity engine</span>
+        </motion.div>
 
-        {/* The Capture Input */}
-        <section className="mb-12">
-          <form onSubmit={handleCapture} className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Plus size={24} className="text-neutral-500 group-focus-within:text-white transition-colors" />
-            </div>
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="Capture a new idea, task, or goal..."
-              className="w-full bg-neutral-900 border border-neutral-800 rounded-2xl py-5 pl-14 pr-6 text-lg focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-neutral-500 transition-all placeholder:text-neutral-600 shadow-sm"
-            />
-          </form>
-        </section>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+          className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 bg-gradient-to-b from-white to-neutral-500 text-transparent bg-clip-text leading-tight"
+        >
+          Capture ideas at the <br className="hidden md:block" /> speed of thought.
+        </motion.h1>
 
-        {/* Captured Ideas Feed */}
-        <section>
-          <h2 className="text-sm font-medium text-neutral-500 uppercase tracking-widest mb-6">Recent Activity</h2>
-          
-          {ideas.length === 0 ? (
-            <div className="border border-neutral-800 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center text-center bg-neutral-900/30">
-              <Sparkles size={32} className="text-neutral-700 mb-4" />
-              <p className="text-neutral-400">Your mind is clear. Type above to start capturing.</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {ideas.map((idea) => (
-                <div key={idea.id} className="group flex items-start justify-between bg-neutral-900 border border-neutral-800 p-5 rounded-2xl hover:border-neutral-700 transition-colors">
-                  <p className="text-neutral-200 text-lg">{idea.text}</p>
-                  <button 
-                    onClick={() => deleteIdea(idea.id)}
-                    className="text-neutral-600 opacity-0 group-hover:opacity-100 hover:text-red-400 transition-all"
-                  >
-                    <Trash2 size={20} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+          className="text-lg md:text-xl text-neutral-400 mb-12 max-w-2xl leading-relaxed"
+        >
+          Ideovate is a blazing fast, distraction-free workspace that lives entirely in your browser. No loading screens, no databases, just pure focus.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+        >
+          <Link
+            href="/dashboard"
+            className="group relative inline-flex items-center gap-2 bg-white text-neutral-950 px-8 py-4 rounded-full font-semibold text-lg hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+          >
+            Open Workspace
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </motion.div>
 
       </main>
     </div>
