@@ -1,36 +1,88 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface Idea {
+export type IdeaType = 'business' | 'college';
+export type RoadmapStage = 'validate' | 'build' | 'launch' | 'scale';
+
+export interface RoadmapTask {
+  title: string;
+  detail: string;
+}
+
+export interface RoadmapPhase {
+  stage: RoadmapStage;
+  title: string;
+  timeline: string;
+  goal: string;
+  tasks: RoadmapTask[];
+}
+
+export interface Roadmap {
   id: string;
-  text: string;
+  idea: string;
+  type: IdeaType;
+  audience: string;
   createdAt: number;
+  concept: string;
+  problem: string;
+  solution: string;
+  customers: string[];
+  revenue: string[];
+  mvp: string[];
+  metrics: string[];
+  risks: string[];
+  phases: RoadmapPhase[];
 }
 
 interface AppState {
-  ideas: Idea[];
-  addIdea: (text: string) => void;
-  deleteIdea: (id: string) => void;
+  roadmaps: Roadmap[];
+  activeRoadmapId: string | null;
+  hasHydrated: boolean;
+  addRoadmap: (roadmap: Roadmap) => void;
+  deleteRoadmap: (id: string) => void;
+  setActiveRoadmap: (id: string) => void;
+  setHasHydrated: (hasHydrated: boolean) => void;
 }
 
 export const useStore = create<AppState>()(
   persist(
     (set) => ({
-      ideas: [],
-      addIdea: (text) =>
+      roadmaps: [],
+      activeRoadmapId: null,
+      hasHydrated: false,
+      addRoadmap: (roadmap) =>
         set((state) => ({
-          ideas: [
-            { id: crypto.randomUUID(), text, createdAt: Date.now() },
-            ...state.ideas,
-          ],
+          roadmaps: [roadmap, ...state.roadmaps],
+          activeRoadmapId: roadmap.id,
         })),
-      deleteIdea: (id) =>
-        set((state) => ({
-          ideas: state.ideas.filter((idea) => idea.id !== id),
-        })),
+      deleteRoadmap: (id) =>
+        set((state) => {
+          const roadmaps = state.roadmaps.filter((roadmap) => roadmap.id !== id);
+          const activeRoadmapId =
+            state.activeRoadmapId === id
+              ? (roadmaps[0]?.id ?? null)
+              : state.activeRoadmapId;
+
+          return { roadmaps, activeRoadmapId };
+        }),
+      setActiveRoadmap: (id) => set({ activeRoadmapId: id }),
+      setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
     {
       name: 'ideovate-storage',
+      version: 2,
+      migrate: (persistedState) => {
+        const state = persistedState as Partial<AppState>;
+
+        return {
+          roadmaps: state.roadmaps ?? [],
+          activeRoadmapId: state.activeRoadmapId ?? state.roadmaps?.[0]?.id ?? null,
+          hasHydrated: false,
+        };
+      },
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

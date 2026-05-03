@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Layers, Zap } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function LandingPage() {
   return (
@@ -32,7 +32,7 @@ export default function LandingPage() {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-900/50 border border-neutral-800 text-sm text-neutral-300 mb-8 backdrop-blur-sm"
         >
           <Sparkles size={14} className="text-neutral-400" />
-          <span>The local-first productivity engine</span>
+          <span>The idea-to-roadmap engine</span>
         </motion.div>
 
         <motion.h1
@@ -41,7 +41,7 @@ export default function LandingPage() {
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 bg-gradient-to-b from-white to-neutral-500 text-transparent bg-clip-text leading-tight"
         >
-          Capture ideas at the <br className="hidden md:block" /> speed of thought.
+          Turn raw ideas into <br className="hidden md:block" /> launch-ready roadmaps.
         </motion.h1>
 
         <motion.p
@@ -50,7 +50,7 @@ export default function LandingPage() {
           transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
           className="text-lg md:text-xl text-neutral-400 mb-12 max-w-2xl leading-relaxed"
         >
-          Ideovate is a blazing fast, distraction-free workspace that lives entirely in your browser. No loading screens, no databases, just pure focus.
+          Ideovate helps you turn startup ideas and college project concepts into clear strategy, MVP scope, validation steps, metrics, and scale plans.
         </motion.p>
 
         <motion.div
